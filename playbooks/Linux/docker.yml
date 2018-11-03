@@ -1,0 +1,15 @@
+---
+- name: Install Docker CE
+  hosts: laptop
+  gather_facts: false
+  become: true
+  vars:
+    # Docker CE repo
+    repo_url: 'https://download.docker.com/linux/fedora/docker-ce.repo'
+  tasks:
+  - name: "Ensure dnf-plugins-core is installed"
+    dnf: name=dnf-plugins-core state=present
+  - name: "Add docker-ce DNF repo"
+    shell: dnf config-manager --add-repo {{ repo_url }}
+  - name: "Install Docker CE"
+    dnf: name=docker-ce state=present
