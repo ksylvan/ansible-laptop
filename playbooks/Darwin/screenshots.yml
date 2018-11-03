@@ -1,7 +1,8 @@
 # Make all screenshots end up in ~/Desktop/ScreenShots instead of ~/Desktop
 #
 ---
-- hosts: all
+- name: Make all Screenshots land in ~/Desktop/ScreenShots instead of cluttering Desktop
+  hosts: all
   gather_facts: false
   vars:
     ss_dir_path: ~/Desktop/ScreenShots

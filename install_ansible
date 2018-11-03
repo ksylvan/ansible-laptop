@@ -2,8 +2,17 @@
 
 REPO="https://github.com/ksylvan/ansible-laptop"
 
-if [ ! -r /etc/sudoers.d/$(whoami) ]
-then
+if [ -r /etc/sudoers.d/$(whoami) ]; then sudo_works=1; fi
+
+if [ $(uname) = Linux ]; then
+  check_sudo=$(sudo -n  head -1 /etc/shadow 2>&1)
+  case "$check_sudo" in
+    sudo:*password*) true;;
+    *) sudo_works=1;;
+  esac
+fi
+
+if [ -z "$sudo_works" ]; then
   echo "Making sudo work for $(whoami) with no password..."
   echo "$(whoami) ALL = NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$(whoami)
 fi

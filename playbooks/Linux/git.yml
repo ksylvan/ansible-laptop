@@ -1,7 +1,7 @@
 # git config (global)
 #
 ---
-- name: Global GIT config
+- name: Global GIT Defaults
   hosts: all
   gather_facts: false
   tasks:

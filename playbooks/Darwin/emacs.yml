@@ -1,7 +1,8 @@
 # emacs customizations
 #
 ---
-- hosts: all
+- name: Emacs setup
+  hosts: all
   gather_facts: false
   become: false
   tasks:

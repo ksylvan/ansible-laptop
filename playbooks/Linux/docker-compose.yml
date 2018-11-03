@@ -1,0 +1,14 @@
+# docker-compose shell script
+#
+---
+- name: Docker Compose setup
+  vars:
+    version: 1.22.0
+  hosts: laptop
+  become: true
+  tasks:
+  - name: Install docker-compose {{ version }} as shell script
+    get_url:
+      url: https://github.com/docker/compose/releases/download/{{ version }}/run.sh
+      dest: /usr/local/bin/docker-compose
+      mode: 0755

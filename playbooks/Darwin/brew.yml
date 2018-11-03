@@ -2,7 +2,8 @@
 # Based on https://blog.vandenbrand.org/2016/01/04/how-to-automate-your-mac-os-x-setup-with-ansible/
 #
 ---
-- hosts: all
+- name: Install packages using brew
+  hosts: all
   vars:
     homebrew_installed_packages:
       - ant

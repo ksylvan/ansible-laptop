@@ -1,0 +1,18 @@
+---
+- name: Better Fonts
+  hosts: laptop
+  become: true
+  vars:
+    font_packages:
+    - fontconfig-enhanced-defaults
+    - fontconfig-font-replacements
+  tasks:
+  # Better Fonts
+  - name: Enable COPR repo for better fonts
+    shell: dnf -y copr enable dawid/better_fonts
+    args:
+      creates: /etc/yum.repos.d/_copr_dawid-better_fonts.repo
+  - name: Install better fonts
+    dnf:
+      name: "{{ font_packages }}"
+      state: latest

@@ -3,7 +3,8 @@
 # Inspired by https://blog.vandenbrand.org/2016/01/04/how-to-automate-your-mac-os-x-setup-with-ansible/
 #
 ---
-- hosts: all
+- name: Reconfigure Mac Dock using dockutil
+  hosts: all
   gather_facts: false
   vars:
     dockitems_to_remove:

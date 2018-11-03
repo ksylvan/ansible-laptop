@@ -1,0 +1,13 @@
+---
+- name: Install Antlr
+  hosts: laptop
+  become: true
+  vars:
+    version: 4.7.1
+  tasks:
+  # antlr install
+  - name: Install antlr (( version }}
+    get_url:
+      url: http://www.antlr.org/download/antlr-{{ version }}-complete.jar
+      dest: /usr/local/lib/antlr-{{ version }}-complete.jar
+      mode: 0644

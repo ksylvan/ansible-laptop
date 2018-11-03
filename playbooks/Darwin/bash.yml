@@ -3,7 +3,8 @@
 # From https://gist.github.com/ksylvan/40edde47602b9087d8c4
 #
 ---
-- hosts: all
+- name: Bash setup prompt for GIT branches
+  hosts: all
   gather_facts: false
   tasks:
     - name: Set up bash prompt for git branch

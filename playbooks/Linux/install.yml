@@ -1,0 +1,97 @@
+---
+- name: Add extra repositories and install packages
+  hosts: laptop
+  gather_facts: false
+  become: true
+  vars:
+    # Extra yum repositories
+    my_yum_repos:
+      google-chrome:
+        description: 'Google Chrome Repository'
+        baseurl: 'http://dl.google.com/linux/chrome/rpm/stable/$basearch'
+        enabled: 1
+        gpgcheck: 1
+        gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub
+      atom:
+        description: 'Atom Official Repo'
+        baseurl: 'https://packagecloud.io/AtomEditor/atom/el/7/$basearch'
+        enabled: 1
+        gpgcheck: 1
+        gpgkey: https://packagecloud.io/AtomEditor/atom/gpgkey
+  tasks:
+  - name: Install from my_yum_repos
+    yum_repository:
+      name: '{{ item.key }}'
+      description: '{{ item.value.description }}'
+      baseurl: '{{ item.value.baseurl }}'
+      enabled: '{{ item.value.enabled | default(1) }}'
+      gpgcheck: '{{ item.value.gpgcheck | default(1) }}'
+      gpgkey: '{{ item.value.gpgkey }}'
+    with_dict: '{{ my_yum_repos | default({}) }}'
+
+- name: Install my packages
+  hosts: laptop
+  gather_facts: false
+  become: true
+  vars:
+    # Add packages to the list below
+    my_packages:
+      names:
+        - atom
+        - sshfs
+        - screen
+        - google-chrome-stable
+        - asciinema
+        - virt-manager
+        - libvirt-daemon-config-network
+        - gitflow
+        - fprintd-pam
+        - gimp
+        - google-authenticator
+        - autofs
+        - filezilla
+        - emacs
+        - dnf-plugin-system-upgrade
+        - inkscape
+        - python2-lxml
+        - libreoffice
+        - mosh
+        - ncftp
+        - tlp
+        - acpitool
+        - akmod-tp_smapi
+        - akmod-acpi_call
+        - kernel-devel
+        - unetbootin
+        - stockfish
+        - xboard
+        - mosh
+        - qrencode
+        - libvirt-daemon-kvm
+        - libvirt-daemon-config-network
+        - java-1.8.0-openjdk-devel
+        - wine
+        - winetricks
+        - tmate
+        - python3-firewall
+      urls:
+        - https://download.cdn.viber.com/desktop/Linux/viber.rpm
+        - https://prerelease.keybase.io/keybase_amd64.rpm
+        - https://go.skype.com/skypeforlinux-64-alpha.rpm
+        - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
+  tasks:
+  - name: Install packages by name
+    dnf: name={{ my_packages.names | default([]) }} state=latest
+  - name: Create cache directory if non-existent
+    file: path=./cache state=directory
+    become: false
+  - name: Download package urls to cache
+    uri:
+      url: '{{ item }}'
+      creates: ./cache/{{ item | basename }}
+      dest: ./cache/{{ item | basename }}
+    become: false
+    with_items: '{{ my_packages.urls | default([]) }}'
+  - name: Install cached packages
+    dnf: name=./cache/{{ item | basename }} state=present
+    with_items: '{{ my_packages.urls | default([]) }}'

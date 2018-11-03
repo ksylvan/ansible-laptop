@@ -1,0 +1,12 @@
+---
+- name: Signal private messenger
+  hosts: laptop
+  become: true
+  tasks:
+  # signal desktop
+  - name: Enable COPR repo for signal
+    shell: dnf -y copr enable luminoso/Signal-Desktop
+    args:
+      creates: /etc/yum.repos.d/_copr_luminoso-Signal-Desktop.repo
+  - name: Install signal desktop
+    dnf: name=signal-desktop state=latest
