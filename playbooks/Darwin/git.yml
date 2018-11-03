@@ -1,0 +1,7 @@
+# git config (global)
+#
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - git_config: name=push.default scope=global value="simple"

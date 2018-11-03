@@ -1,0 +1,43 @@
+#!/bin/sh
+
+REPO="https://github.com/ksylvan/ansible-laptop"
+
+if [ ! -r /etc/sudoers.d/$(whoami) ]
+then
+  echo "Making sudo work for $(whoami) with no password..."
+  echo "$(whoami) ALL = NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$(whoami)
+fi
+
+if [ -n "$(which ansible)" ]
+then
+  echo "Ansible already installed."
+  exit 0
+fi
+
+case "$(uname)" in
+  Darwin)
+    pkgutil --pkg-info=com.apple.pkg.CLTools_Executables 2>&1 | grep -q 'No receipt for'
+    if [ $? -eq 0 ] # CLI tools not installed
+    then
+      echo "Install Xcode, then hit RETURN> \c"
+      read ans
+      xcode-select --install
+    else
+      echo "Xcode command line tools already installed"  
+    fi
+    sudo easy_install pip
+    sudo pip install ansible
+    ;;
+  Linux)
+    if [ -r /etc/fedora-release ]
+    then
+      echo "Installing Ansible on Fedora"
+      sudo dnf -y install ansible python2-dnf libselinux-python \
+        policycoreutils-python-utils
+    else
+      echo "This script does not know how to install Ansible for your OS"
+      echo "Please fix that and submit a pull request against $REPO"
+    fi
+    ;;
+
+esac

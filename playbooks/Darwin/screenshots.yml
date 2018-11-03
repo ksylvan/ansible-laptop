@@ -1,0 +1,18 @@
+# Make all screenshots end up in ~/Desktop/ScreenShots instead of ~/Desktop
+#
+---
+- hosts: all
+  gather_facts: false
+  vars:
+    ss_dir_path: ~/Desktop/ScreenShots
+  tasks:
+    - name: Does {{ ss_dir_path }} exist?
+      stat: path={{ ss_dir_path }}
+      register: ss_dir
+    - block:
+        - file: path={{ ss_dir_path }} state=directory
+        - name: Make screenshots deposit themselves in {{ ss_dir_path }}
+          shell: |
+            defaults write com.apple.screencapture location {{ ss_dir_path }}/
+            killall SystemUIServer
+      when: not ss_dir.stat.exists

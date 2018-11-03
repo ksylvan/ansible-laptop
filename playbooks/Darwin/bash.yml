@@ -1,0 +1,23 @@
+# bash setup for git branches
+#
+# From https://gist.github.com/ksylvan/40edde47602b9087d8c4
+#
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Set up bash prompt for git branch
+      blockinfile:
+        marker: '# {mark} GIT BASH COMPLETION SETTINGS'
+        dest: ~/.bash_profile
+        block: |
+          if [ -f $(brew --prefix)/etc/bash_completion ]; then
+            . $(brew --prefix)/etc/bash_completion
+          fi
+          git_branch() {
+            __tmp__=$(git rev-parse --symbolic-full-name \
+              --abbrev-ref HEAD 2>/dev/null)
+            case $? in 0) echo " (${__tmp__})";; *) echo "";; esac
+          }
+          export PS1="\h:\W \u\$(git_branch)\$ "
+        create: yes

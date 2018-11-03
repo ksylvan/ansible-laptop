@@ -1,0 +1,40 @@
+#
+# Based on https://blog.vandenbrand.org/2016/01/04/how-to-automate-your-mac-os-x-setup-with-ansible/
+#
+---
+- hosts: all
+  vars:
+    homebrew_installed_packages:
+      - ant
+      - bash-completion
+      - dockutil
+      - git
+      - git-extras
+      - git-flow
+      - gpg
+      - maven
+      - mosh
+      - nmap
+      - socat
+      - ssh-copy-id
+      - tmate
+      - vitorgalvao/tiny-scripts/cask-repair
+      - wget
+    
+    homebrew_cask_apps:
+      - java
+      - atom
+      - brave-browser
+      - docker
+      - emacs
+      - gimp
+      - google-chrome
+      - intellij-idea-ce
+      - keybase
+      - libreoffice
+      - viber
+      - signal
+      - whatsapp
+      - xquartz
+  roles:
+    - geerlingguy.homebrew

@@ -1,0 +1,21 @@
+# emacs customizations
+#
+---
+- hosts: all
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Create ~/.emacs.d
+      file: path=~/.emacs.d state=directory mode=0755
+    - name: Emacs init file
+      blockinfile:
+        marker: ';; {mark} EMACS INIT FILE'
+        dest: ~/.emacs.d/init.el
+        block: |
+          (setq yow-file "~/.emacs.d/yow_file_zippy_pinhead_quotes.txt.gz")
+        create: yes
+    - name: Quotes file for zippy
+      uri:
+        url: http://ergoemacs.org/emacs/yow_file_zippy_pinhead_quotes.txt.gz
+        creates: ~/.emacs.d/yow_file_zippy_pinhead_quotes.txt.gz
+        dest: ~/.emacs.d/yow_file_zippy_pinhead_quotes.txt.gz

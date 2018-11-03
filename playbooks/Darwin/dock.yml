@@ -1,0 +1,50 @@
+# Dock reconfigurations (remove/add dock items to taste)
+#
+# Inspired by https://blog.vandenbrand.org/2016/01/04/how-to-automate-your-mac-os-x-setup-with-ansible/
+#
+---
+- hosts: all
+  gather_facts: false
+  vars:
+    dockitems_to_remove:
+      - Launchpad
+      - Contacts
+      - Notes
+      - Reminders
+      - Maps
+      - Pages
+      - Photos
+      - FaceTime
+      - iBooks
+      - App Store
+      - System Preferences
+
+    dockitems_to_persist:
+      - name: Terminal
+        path: /Applications/Utilities/Terminal.app
+      - name: Viber
+        path: /Applications/Viber.app
+      - name: "Brave Browser"
+        path: "/Applications/Brave Browser.app"
+  tasks:
+    - name: Current Dock names
+      shell: >
+        dockutil --list |
+        python -c 'import sys; [sys.stdout.write(line.split("\t")[0] + "\n")
+        for line in sys.stdin]'
+      register: dockitems
+      changed_when: false
+    - set_fact:
+        x: '{{ dockitems_to_remove | intersect(dockitems.stdout_lines) }}'
+    - name: Remove Dock items
+      shell: dockutil --remove '{{ item }}'
+      with_items: '{{ x }}'
+    - set_fact: y='{{ dockitems_to_persist|map(attribute="name")|list }}'
+    - set_fact:
+        x: '{{ y | difference(dockitems.stdout_lines) }}'
+    - name: Add Dock items
+      shell: >
+        dockutil --find '{{ item.name }}' ||
+        dockutil --add '{{ item.path }}'
+      with_items: '{{ dockitems_to_persist }}'
+      when: x != []
