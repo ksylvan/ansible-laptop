@@ -21,6 +21,7 @@
       - tmate
       - vitorgalvao/tiny-scripts/cask-repair
       - wget
+      - python3
     
     homebrew_cask_apps:
       - java
