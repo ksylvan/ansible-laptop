@@ -38,5 +38,7 @@
       - signal
       - whatsapp
       - xquartz
+      - pycharm-ce
+
   roles:
     - geerlingguy.homebrew
