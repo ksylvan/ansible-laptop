@@ -61,8 +61,8 @@ Simply make a symlink to your backup location (for instance your `Keybase`
 private volume) to `./backup':
 
 ```
-mkdir /Volumes/Keybase\ \(kayvan\)/private/ksylvan/ansible-laptop
-ln -s /Volumes/Keybase\ \(kayvan\)/private/ksylvan/ansible-laptop backup
+mkdir /keybase/private/ksylvan/ansible-laptop
+ln -s /keybase/private/ksylvan/ansible-laptop backup
 ```
 
 Then run:
