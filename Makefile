@@ -4,7 +4,7 @@
 
 .PHONY: all galaxy install playbooks private backup
 
-all: galaxy install playbooks private
+all: install galaxy playbooks private
 
 galaxy: requirements.yml
 	@ansible-galaxy install -p imported_roles -r requirements.yml
