@@ -31,10 +31,11 @@ restore your user data.
 
 Start with cloning this repository.
 
-### For Fedora and MacOS:
+### For Fedora, Ubuntu, and MacOS:
 
-Peruse the playbooks in `playbooks/YourOS/`. Modify as necessary.
-Add new Playbooks here, then run:
+Peruse the playbooks in `playbooks/`. Modify as necessary.
+
+Add new Playbooks here, following the existing structure, then run:
 
 ```
 make
@@ -42,18 +43,21 @@ make
 
 ### For other operating systems.
 
-Install Ansible yourself (or extend the `install_ansible`
+Install Ansible yourself (or extend the `./bin/install_ansible`
 script and submit a Pull Request)
 
 ## Additional Playbooks
 
-Add additional playbooks in `playbooks/YourOS` and sumbit a pull request
-if you think they could be of general use.
+Add additional playbooks in the appropriate `playbooks/` subdirecory and
+sumbit a pull request if you think they could be of general use.
 
-Add private playbooks that you do not intend to share in `private/YourOS`.
-These will not end up in the
-git repo and should be backed up somewhere. These could contain specific
-or idiosyncratic customizations that are not of general use.
+Add private playbooks that you do not intend to share in `private/`.
+For MacOS, land your playbooks in `private/Darwin` and for Linux,
+put them in `private/Linux`.
+
+These will not end up in the git repo and should be backed up
+somewhere. These could contain specific or idiosyncratic customizations
+that are not of general use.
 
 ## Backing Up your `private/` Playbooks
 
@@ -70,5 +74,3 @@ Then run:
 ```
 make backup
 ```
-
-

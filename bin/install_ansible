@@ -32,21 +32,32 @@ case "$(uname)" in
       read ans
       xcode-select --install
     else
-      echo "Xcode command line tools already installed"  
+      echo "Xcode command line tools already installed"
     fi
     sudo easy_install pip
     sudo pip install ansible
     ;;
   Linux)
-    if [ -r /etc/fedora-release ]
-    then
+    flavor=$(grep ^ID= /etc/os-release | sed 's/^ID=//')
+    case $flavor in
+    fedora)
       echo "Installing Ansible on Fedora"
       sudo dnf -y install ansible python2-dnf libselinux-python \
         policycoreutils-python-utils
-    else
+      ;;
+    ubuntu)
+      echo "Installing Ansible on Ubuntu"
+      sudo apt-get update
+      sudo apt-get install software-properties-common
+      sudo apt-add-repository --yes --update ppa:ansible/ansible
+      sudo apt-get install -y ansible
+      ;;
+    *)
+      echo "ERROR in $0: Unknown Linux flavor: $flavor"
       echo "This script does not know how to install Ansible for your OS"
       echo "Please fix that and submit a pull request against $REPO"
-    fi
-    ;;
-
+      exit 1
+      ;;
+    esac
+  ;;
 esac

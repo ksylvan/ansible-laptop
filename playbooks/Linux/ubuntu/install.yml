@@ -1,0 +1,42 @@
+---
+- name: Add extra repositories and install packages
+  hosts: laptop
+  gather_facts: false
+  become: true
+  vars:
+    # Extra apt repositories
+    my_apt_repos:
+      google-chrome:
+        repo: 'deb http://dl.google.com/linux/chrome/deb/ stable main'
+        file: google-chrome
+      atom:
+        repo: ppa:webupd8team/atom
+        file: atom
+  tasks:
+  - name: Google Chrome signing key
+    apt_key:
+      url: https://dl.google.com/linux/linux_signing_key.pub
+      state: present
+  - name: Install from my_apt_repos
+    apt_repository:
+      repo: '{{ item.value.repo }}'
+      filename: '{{ item.value.file }}'
+      state: present
+    with_dict: '{{ my_apt_repos | default({}) }}'
+
+- name: Install my packages
+  hosts: laptop
+  gather_facts: false
+  become: true
+  vars:
+    # Add packages to the list below
+    my_packages:
+      names:
+        - atom
+        - sshfs
+        - tmux
+        - google-chrome-stable
+        - emacs
+  tasks:
+  - name: Install packages by name
+    apt: name={{ my_packages.names | default([]) }} state=latest update_cache=yes

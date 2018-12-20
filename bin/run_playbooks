@@ -1,0 +1,44 @@
+#!/bin/sh
+
+cd $(dirname $0)/..
+
+REPO="https://github.com/ksylvan/ansible-laptop"
+
+case "$(uname)" in
+  Darwin)
+    dirs="playbooks/Darwin private/Darwin"
+    ;;
+  Linux)
+    flavor=$(grep ^ID= /etc/os-release | sed 's/^ID=//')
+    case $flavor in
+    fedora)
+      dirs="playbooks/Linux/fedora playbooks/Linux/common private/Linux"
+      ;;
+    ubuntu)
+      dirs="playbooks/Linux/ubuntu playbooks/Linux/common private/Linux"
+      ;;
+    *)
+      echo "ERROR in $0: Unknown Linux flavor: $flavor"
+      echo "This script does not know where to look for playbooks for your OS"
+      echo "Please fix that and submit a pull request against $REPO"
+      exit 1
+      ;;
+    esac
+  ;;
+esac
+
+for d in $dirs
+do
+  x=$(ls $d/*.yml 2>/dev/null)
+  if [ -n "$x" ]; then
+    for p in "$x"
+    do
+      ansible-playbook $p
+    done
+  else
+    echo "No playbooks found in $d"
+  fi
+done
+
+
+done
