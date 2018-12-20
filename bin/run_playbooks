@@ -39,6 +39,3 @@ do
     echo "No playbooks found in $d"
   fi
 done
-
-
-done
