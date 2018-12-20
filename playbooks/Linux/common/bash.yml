@@ -2,6 +2,7 @@
 - name: bashrc setup
   hosts: laptop
   become: false
+  gather_facts: false
   tasks:
   # bashrc modifications
   - name: Bash prompt setup for GIT branches

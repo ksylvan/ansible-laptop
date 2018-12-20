@@ -5,6 +5,7 @@
   vars:
     version: 1.22.0
   hosts: laptop
+  gather_facts: false
   become: true
   tasks:
   - name: Install docker-compose {{ version }} as shell script
