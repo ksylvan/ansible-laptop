@@ -4,7 +4,7 @@
   become: false
   tasks:
   # bashrc modifications
-  - name: Bash aliases
+  - name: Bash prompt setup for GIT branches
     blockinfile:
       marker: '# {mark} GIT PROMPT SETUP'
       dest: ~/.bashrc
