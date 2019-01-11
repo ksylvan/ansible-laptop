@@ -49,7 +49,7 @@ script and submit a Pull Request)
 ## Additional Playbooks
 
 Add additional playbooks in the appropriate `playbooks/` subdirecory and
-sumbit a pull request if you think they could be of general use.
+submit a pull request if you think they could be of general use.
 
 Add private playbooks that you do not intend to share in `private/`.
 For MacOS, land your playbooks in `private/Darwin` and for Linux,
