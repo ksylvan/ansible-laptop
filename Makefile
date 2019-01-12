@@ -2,7 +2,7 @@
 # Makefile for ansible-laptop
 #
 
-.PHONY: all galaxy install playbooks backup
+.PHONY: all galaxy install playbooks backup clean
 
 all: install galaxy playbooks private
 
@@ -23,3 +23,6 @@ backup:
 	else \
 		echo "Set up backup/ as symlink to location for your private playbooks."; \
 	fi
+
+clean:
+	find . -type f -name '*.retry' | xargs rm -f

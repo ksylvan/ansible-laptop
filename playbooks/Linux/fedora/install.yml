@@ -95,6 +95,9 @@
       dest: ./cache/{{ item | basename }}
     become: false
     with_items: '{{ my_packages.urls | default([]) }}'
+  - name: list of cached packages
+    shell: echo ./cache/*
+    register: list_cache
+    changed_when: false
   - name: Install cached packages
-    dnf: name=./cache/{{ item | basename }} state=present
-    with_items: '{{ my_packages.urls | default([]) }}'
+    dnf: name={{ list_cache.stdout.split() }} state=present
