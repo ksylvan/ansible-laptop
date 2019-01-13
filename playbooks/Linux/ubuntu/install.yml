@@ -22,7 +22,7 @@
       repo: '{{ item.value.repo }}'
       filename: '{{ item.value.file }}'
       state: present
-    with_dict: '{{ my_apt_repos | default({}) }}'
+    loop: '{{ my_apt_repos | default({}) | dict2items }}'
 
 - name: Install my packages
   hosts: laptop

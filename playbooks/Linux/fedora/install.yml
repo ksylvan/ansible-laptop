@@ -30,7 +30,7 @@
       enabled: '{{ item.value.enabled | default(1) }}'
       gpgcheck: '{{ item.value.gpgcheck | default(1) }}'
       gpgkey: '{{ item.value.gpgkey }}'
-    with_dict: '{{ my_yum_repos | default({}) }}'
+    loop: '{{ my_yum_repos | default({}) | dict2items }}'
 
 - name: Install my packages
   hosts: laptop
@@ -94,7 +94,7 @@
       creates: ./cache/{{ item | basename }}
       dest: ./cache/{{ item | basename }}
     become: false
-    with_items: '{{ my_packages.urls | default([]) }}'
+    loop: '{{ my_packages.urls | default([]) | dict2items }}'
   - name: list of cached packages
     shell: echo ./cache/*
     register: list_cache

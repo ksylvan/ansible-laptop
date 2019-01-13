@@ -39,7 +39,7 @@
         x: '{{ dockitems_to_remove | intersect(dockitems.stdout_lines) }}'
     - name: Remove Dock items
       shell: dockutil --remove '{{ item }}'
-      with_items: '{{ x }}'
+      loop: '{{ x }}'
     - set_fact: y='{{ dockitems_to_persist|map(attribute="name")|list }}'
     - set_fact:
         x: '{{ y | difference(dockitems.stdout_lines) }}'
@@ -47,5 +47,5 @@
       shell: >
         dockutil --find '{{ item.name }}' ||
         dockutil --add '{{ item.path }}'
-      with_items: '{{ dockitems_to_persist }}'
+      loop: '{{ dockitems_to_persist }}'
       when: x != []
