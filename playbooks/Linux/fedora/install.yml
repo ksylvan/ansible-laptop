@@ -94,7 +94,7 @@
       creates: ./cache/{{ item | basename }}
       dest: ./cache/{{ item | basename }}
     become: false
-    loop: '{{ my_packages.urls | default([]) | dict2items }}'
+    loop: '{{ my_packages.urls | default([]) }}'
   - name: list of cached packages
     shell: echo ./cache/*
     register: list_cache
