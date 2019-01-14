@@ -27,4 +27,12 @@
         - docker-ce=5:18.09.0*
   tasks:
   - name: Install Docker-CE packages
+
+- name: Add user to docker group
+  hosts: laptop
+  become: true
+  tasks:
+  - name: User {{ ansible_env.SUDO_USER }} to group docker
+    user: append=yes groups=docker name={{ ansible_env.SUDO_USER }}
+
     apt: name={{ my_packages.names | default([]) }} state=present update_cache=yes
