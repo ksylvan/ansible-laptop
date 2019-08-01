@@ -42,7 +42,7 @@ case "$(uname)" in
     case $flavor in
     fedora)
       echo "Installing Ansible on Fedora"
-      sudo dnf -y install ansible python2-dnf libselinux-python \
+      sudo dnf -y install ansible libselinux-python \
         policycoreutils-python-utils
       ;;
     ubuntu)
