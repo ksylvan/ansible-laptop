@@ -40,48 +40,53 @@
     # Add packages to the list below
     my_packages:
       names:
-        - atom
-        - sshfs
-        - screen
-        - google-chrome-stable
+        - acpitool
+        - akmod-acpi_call
+        - akmod-tp_smapi
         - asciinema
-        - virt-manager
-        - libvirt-daemon-config-network
-        - gitflow
+        - atom
+        - autofs
+        - dnf-plugin-system-upgrade
+        - emacs
+        - filezilla
         - fprintd-pam
         - gimp
+        - gitflow
         - google-authenticator
-        - autofs
-        - filezilla
-        - emacs
-        - dnf-plugin-system-upgrade
+        - gstreamer1-plugins-good
+        - gstreamer-ffmpeg
+        - gstreamer1-libav
+        - google-chrome-stable
         - inkscape
-        - python2-lxml
+        - java-1.8.0-openjdk-devel
+        - kernel-devel
         - libreoffice
+        - libvirt-daemon-config-network
+        - libvirt-daemon-config-network
+        - libvirt-daemon-kvm
+        - mosh
         - mosh
         - ncftp
-        - tlp
-        - acpitool
-        - akmod-tp_smapi
-        - akmod-acpi_call
-        - kernel-devel
-        - unetbootin
-        - stockfish
-        - xboard
-        - mosh
+        - obs-studio
+        - python2-lxml
+        - python3-firewall
         - qrencode
-        - libvirt-daemon-kvm
-        - libvirt-daemon-config-network
-        - java-1.8.0-openjdk-devel
+        - screen
+        - sshfs
+        - stockfish
+        - tlp
+        - tmate
+        - unetbootin
+        - virt-manager
         - wine
         - winetricks
-        - tmate
-        - python3-firewall
+        - xboard
       urls:
         - https://download.cdn.viber.com/desktop/Linux/viber.rpm
         - https://prerelease.keybase.io/keybase_amd64.rpm
         - https://go.skype.com/skypeforlinux-64-alpha.rpm
-        - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
+        - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-30.noarch.rpm
+        - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-30.noarch.rpm
   tasks:
   - name: Install packages by name
     dnf: name={{ my_packages.names | default([]) }} state=latest
