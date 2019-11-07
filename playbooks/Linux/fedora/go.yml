@@ -1,0 +1,46 @@
+---
+- name: Install VSCode and go
+  hosts: laptop
+  gather_facts: false
+  become: true
+  tasks:
+  - name: VSCode repo install
+    yum_repository:
+      name: vscode
+      description: 'Visual Studio Code'
+      baseurl: https://packages.microsoft.com/yumrepos/vscode
+      enabled: 1
+      gpgcheck: 1
+      gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+
+- name: Install my packages
+  hosts: laptop
+  gather_facts: false
+  become: true
+  vars:
+    # Add packages to the list below
+    my_packages:
+      names:
+        - code
+        - go
+
+  tasks:
+  - name: Install packages by name
+    dnf: name={{ my_packages.names | default([]) }} state=latest
+
+- name: Local Tasks
+  hosts: laptop
+  become: false
+  tasks:
+  # bashrc modifications
+  - name: Bash aliases
+    blockinfile:
+      marker: '# {mark} GoLang related'
+      dest: ~/.bashrc
+      content: |
+        #
+        # For golang
+        #
+        export GOPATH="$HOME/go"
+        export GO111MODULE=on
+        export PATH="$PATH:$GOPATH/bin"

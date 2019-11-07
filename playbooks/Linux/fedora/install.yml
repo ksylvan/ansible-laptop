@@ -81,6 +81,8 @@
         - wine
         - winetricks
         - xboard
+        - podman
+        - podman-docker
       urls:
         - https://download.cdn.viber.com/desktop/Linux/viber.rpm
         - https://prerelease.keybase.io/keybase_amd64.rpm
