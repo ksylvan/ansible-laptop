@@ -1,0 +1,18 @@
+# podman-compose script
+#
+---
+- name: Podman docker-compose setup
+  hosts: laptop
+  gather_facts: false
+  become: true
+  tasks:
+  - name: Install podman-compose script
+    get_url:
+      url: https://raw.githubusercontent.com/containers/podman-compose/devel/podman_compose.py
+      dest: /usr/local/bin/podman-compose
+      mode: 0755
+  - name: docker-compose symlink
+    file:
+      src: /usr/local/bin/podman-compose
+      dest: /usr/local/bin/docker-compose
+      state: link
